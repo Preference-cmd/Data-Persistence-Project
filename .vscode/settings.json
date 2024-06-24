@@ -51,5 +51,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Data-Persistence-Project.sln"
+    "dotnet.defaultSolution": "Data-Persistence-Project.sln",
+    "Codegeex.GenerationPreference": "line by line"
 }
