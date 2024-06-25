@@ -57,7 +57,8 @@ public class MainManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                // Back to Menu
+                SceneManager.LoadScene(0);
             }
         }
     }

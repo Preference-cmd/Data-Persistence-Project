@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,14 +22,30 @@ public class GameManager : MonoBehaviour
     }
 
     // Player class definition
-    public class Player
+
+
+    // Save a player's data
+    [Serializable]
+    class SaveData
     {
-        public string playerName;
-        private int playerHighestScore;
-        public int playerCurrentScore;
-        private int[] playerRecentScores;
+        public Player playerSaving;
     }
 
+    public void SaveProfile(Player player)
+    {
+        SaveData saveData = new();
+        saveData.playerSaving = player;
 
+        string json = JsonUtility.ToJson(saveData);
+        File.WriteAllText(Application.persistentDataPath + "/playerInfo.json", json);
+    }
+}
 
+[Serializable]
+public class Player
+{
+    public string playerName;
+    public int playerHighestScore;
+    public int playerCurrentScore;
+    public int[] playerRecentScores;
 }
