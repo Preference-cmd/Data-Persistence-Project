@@ -7,6 +7,8 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+    private Player currentPlayer;
+    private List<Player> currentPlayerList = new();
 
     public void Awake()
     {
@@ -21,23 +23,56 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject); 
     }
 
-    // Player class definition
-
-
-    // Save a player's data
+    // Save playergroup data
     [Serializable]
     class SaveData
     {
-        public Player playerSaving;
+        public List<Player> players;
     }
 
-    public void SaveProfile(Player player)
+    public void SavePlayer()
     {
-        SaveData saveData = new();
-        saveData.playerSaving = player;
 
+    }
+
+    public void SaveProfile()
+    {
+        // Initialize save data
+        SaveData saveData = new()
+        {
+            players = currentPlayerList
+        };
+
+        // Serialize save data to JSON and save to file
         string json = JsonUtility.ToJson(saveData);
-        File.WriteAllText(Application.persistentDataPath + "/playerInfo.json", json);
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+    }
+
+    public void LoadProfile()
+    {
+        string path = Application.persistentDataPath + "/savefile.json";
+        SaveData data = new();
+
+        // Deserialize JSON file to save data
+        if(File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            data = JsonUtility.FromJson<SaveData>(json);
+        }
+
+        // Set current player list
+        currentPlayerList = data.players;
+    }
+
+    public List<Player> GetPlayerList()
+    {
+        // Init the current player list if it's null
+        if (currentPlayerList == null)
+        {
+            LoadProfile();
+        }
+
+        return currentPlayerList;
     }
 }
 
@@ -47,5 +82,4 @@ public class Player
     public string playerName;
     public int playerHighestScore;
     public int playerCurrentScore;
-    public int[] playerRecentScores;
 }
