@@ -30,9 +30,38 @@ public class GameManager : MonoBehaviour
         public List<Player> players;
     }
 
-    public void SavePlayer()
+    public void RegisterNewPlayer(string playerName)
     {
+        // See if player already exists
+        foreach (Player player in currentPlayerList)
+        {
+            if (player.playerName == playerName)
+            {
+                Debug.Log("Player already exists");
+                currentPlayer = player;
+                return;
+            }
+        }
 
+        // Create new player if player doesn't exist
+        currentPlayer = new()
+        {
+            playerName = playerName,
+        };
+        Debug.Log("New Player Created");
+    }
+
+    public void UpdateCurrentPlayer(int playerScore)
+    {
+        // Update current player score and check if it is a new high score
+        currentPlayer.playerCurrentScore = playerScore;
+
+        if (currentPlayer.playerHighestScore < playerScore)
+        {
+            currentPlayer.playerHighestScore = playerScore;
+        }
+
+        currentPlayerList.Add(currentPlayer);
     }
 
     public void SaveProfile()

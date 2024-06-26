@@ -71,6 +71,7 @@ public class MainManager : MonoBehaviour
 
     public void GameOver()
     {
+        GameManager.Instance.UpdateCurrentPlayer(m_Points);
         m_GameOver = true;
         GameOverText.SetActive(true);
     }
